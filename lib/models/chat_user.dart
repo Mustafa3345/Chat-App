@@ -27,7 +27,7 @@ class ChatUser {
     id = json['id'] ?? '';
     email = json['email'] ?? '';
     name = json['name'] ?? '';
-    isOnline = json['is_online'] ?? '';
+    isOnline = json['isOnline'] == 'true';
     pushToken = json['push_token'] ?? '';
     about = json['about'] ?? '';
     createAt = json['create_at'] ?? '';

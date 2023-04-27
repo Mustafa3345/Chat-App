@@ -1,10 +1,13 @@
 import 'dart:core';
 
+import 'package:chat_application/Screens/auth/login_screen.dart';
 import 'package:chat_application/Screens/profile_screen.dart';
 import 'package:chat_application/models/chat_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/apis.dart';
 import '../widgets/chats_user_card.dart';
@@ -45,7 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.only(bottom: 15),
         child: FloatingActionButton(
           onPressed: () async {
-            APIs.auth.signOut();
+            ssignOut();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const loginscreen()));
           },
           child: const Icon(Icons.add_comment_rounded),
         ),
@@ -66,10 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   final data = snapshot.data?.docs;
                   for (var i in data!) {
                     list.length;
-                    list = data
-                            ?.map((e) => ChatUser.fromJson(i.data()))
-                            .toList() ??
-                        [];
+                    list =
+                        data.map((e) => ChatUser.fromJson(i.data())).toList();
                   }
 
                   if (!list.isNotEmpty) {
@@ -99,4 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   googleSignIn() async {}
+  ssignOut() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+  }
 }

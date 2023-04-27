@@ -62,7 +62,7 @@ class _loginscreenState extends State<loginscreen> {
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        idToken: googleAuth!.idToken,
       );
 
       // Once signed in, return the UserCredential
