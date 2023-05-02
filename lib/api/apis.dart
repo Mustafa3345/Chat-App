@@ -19,7 +19,7 @@ class APIs {
     return (await firestore.collection('users').doc(user.uid).get()).exists;
   }
 
-  static Future<void> createUser() async {
+  static createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final User = ChatUser(
@@ -33,9 +33,6 @@ class APIs {
         isOnline: false,
         image: user.photoURL.toString());
 
-    return await firestore
-        .collection('users')
-        .doc(user.uid)
-        .set(chatUser.toJson());
+    return await firestore.collection('users').add(chatUser.toJson());
   }
 }

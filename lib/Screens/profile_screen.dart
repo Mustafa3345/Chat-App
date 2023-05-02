@@ -1,12 +1,11 @@
-import 'dart:convert';
 import 'dart:core';
-import 'dart:developer';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_application/models/chat_user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/apis.dart';
 
@@ -29,11 +28,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 15),
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.red,
             onPressed: () async {
               APIs.auth.signOut();
+
+              await FirebaseAuth.instance.signOut();
+              await GoogleSignIn().signOut();
             },
-            child: const Icon(Icons.add_comment_rounded),
+            icon: Icon(Icons.add_comment_rounded),
+            label: Text('logOut'),
           ),
         ),
         body: Padding(
@@ -54,6 +58,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SizedBox(height: mq.height * .03),
+              Text(widget.user.email,
+                  style: TextStyle(color: Colors.black54, fontSize: 16)),
+              SizedBox(height: mq.height * .05),
+              TextFormField(
+                initialValue: widget.user.name,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.person_2_rounded,
+                      color: Colors.blue,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    hintText: 'e.g Name Or Email',
+                    label: const Text('Name')),
+              ),
+              SizedBox(height: mq.height * .02),
+              TextFormField(
+                initialValue: widget.user.about,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(
+                      Icons.info,
+                      color: Colors.blue,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    hintText: 'e.g Current Mood ',
+                    label: const Text('About')),
+              ),
+              SizedBox(height: mq.height * .05),
+              Builder(builder: (context) {
+                return ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.edit),
+                    label: Text('Update'));
+              })
             ],
           ),
         ));
