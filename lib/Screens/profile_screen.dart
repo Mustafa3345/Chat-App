@@ -87,12 +87,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     label: const Text('About')),
               ),
               SizedBox(height: mq.height * .05),
-              Builder(builder: (context) {
-                return ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.edit),
-                    label: Text('Update'));
-              })
+              ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.edit),
+                  label: Text('Update'))
             ],
           ),
         ));

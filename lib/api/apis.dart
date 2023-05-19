@@ -22,17 +22,25 @@ class APIs {
   static createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
-    final User = ChatUser(
-        id: user.uid,
-        name: user.displayName.toString(),
+    // Retrieve the current user
+    final currentUser = auth.currentUser;
+
+    if (currentUser != null) {
+      final user = ChatUser(
+        id: currentUser.uid,
+        name: currentUser.displayName.toString(),
         about: 'hey I am using Chat Application',
         lastactive: time,
         pushToken: '',
         createAt: time,
         email: 'shajee.tech@gmail.com',
         isOnline: false,
-        image: user.photoURL.toString());
+        image: currentUser.photoURL.toString(),
+      );
 
-    return await firestore.collection('users').add(chatUser.toJson());
+      return await firestore.collection('users').add(user.toJson());
+    } else {
+      throw Exception("User is null");
+    }
   }
 }
